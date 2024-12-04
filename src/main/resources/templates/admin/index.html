@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Адмін Панель</title>
+    <style>
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<h1>Адмін Панель</h1>
+<a th:href="@{/admin/phrases}" class="button">Додати фрази</a>
+<a th:href="@{/admin/x-accounts}" class="button">Додати акаунт Twitter</a>
+<a th:href="@{/admin/fb-accounts}" class="button">Додати акаунт Facebook</a>
+<a th:href="@{/admin/settings}" class="button">Налаштування</a>
+</body>
+</html>

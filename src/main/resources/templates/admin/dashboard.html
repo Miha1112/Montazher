@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Панель керування</title>
+</head>
+<body>
+<h1>Панель керування</h1>
+<div>
+    <a th:href="@{/admin/phrases}">
+        <button>Ключові фрази</button>
+    </a>
+    <a th:href="@{/admin/x-accounts}">
+        <button>Twitter акаунти</button>
+    </a>
+    <a th:href="@{/admin/fb-accounts}">
+        <button>Facebook акаунти</button>
+    </a>
+    <a th:href="@{/admin/settings}">
+        <button>Налаштування бота</button>
+    </a>
+</div>
+</body>
+</html>

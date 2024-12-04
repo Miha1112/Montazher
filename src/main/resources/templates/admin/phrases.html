@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Ключові фрази</title></head>
+<body>
+<h1>Ключові фрази</h1>
+<form th:action="@{/admin/phrases}" th:object="${newPhrase}" method="post">
+    <input type="text" th:field="*{text}" placeholder="Додати ключову фразу"/>
+    <button type="submit">Додати</button>
+</form>
+<ul>
+    <li th:each="phrase : ${phrases}">
+        <span th:text="${phrase.text}"></span>
+    </li>
+</ul>
+
+<br/>
+<a th:href="@{/admin}" style="padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Back to Home</a>
+</body>
+</html>

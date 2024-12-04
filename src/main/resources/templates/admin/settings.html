@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Налаштування</title>
+  <style>
+    .button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+  <script>
+    function startBot() {
+      fetch('/api/start', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+              .then(response => response.text())
+              .then(data => {
+                alert(data); // Виведе "Bot started"
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                alert('Помилка запуску бота');
+              });
+    }
+  </script>
+</head>
+<body>
+<h1>Налаштування бота</h1>
+<form th:action="@{/admin/settings}" th:object="${settings}" method="post">
+  <label>Інтервал (хвилин):</label>
+  <input type="number" th:field="*{intervalMinutes}" />
+  <button type="submit" class="button">Зберегти</button>
+</form>
+
+<button type="button" class="button" onclick="startBot()">
+  Запустити
+</button>
+
+<br/>
+<a th:href="@{/admin}" class="button">Back to Home</a>
+</body>
+</html>

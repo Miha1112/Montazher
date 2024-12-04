@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Facebook акаунти</title></head>
+<body>
+<h1>Facebook акаунти</h1>
+<form th:action="@{/admin/fb-accounts}" th:object="${newFBAccount}" method="post">
+  <input type="text" th:field="*{email}" placeholder="Email"/>
+  <input type="text" th:field="*{name}" placeholder="Ім'я користувача"/>
+  <input type="password" th:field="*{password}" placeholder="Пароль"/>
+  <button type="submit">Додати</button>
+</form>
+<ul>
+  <li th:each="account : ${fbAccounts}">
+    <span th:text="${account.name}"></span> (<span th:text="${account.email}"></span>)
+  </li>
+</ul>
+<br/>
+<!-- Кнопка назад на головну -->
+<a th:href="@{/admin}" style="padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Twitter акаунти</title></head>
+<body>
+<h1>Twitter акаунти</h1>
+<form th:action="@{/admin/x-accounts}" th:object="${newXAccount}" method="post">
+  <input type="text" th:field="*{email}" placeholder="Email"/>
+  <input type="text" th:field="*{name}" placeholder="Ім'я користувача"/>
+  <input type="password" th:field="*{password}" placeholder="Пароль"/>
+  <button type="submit">Додати</button>
+</form>
+<ul>
+  <li th:each="account : ${xAccounts}">
+    <span th:text="${account.name}"></span> (<span th:text="${account.email}"></span>)
+  </li>
+</ul>
+<br/>
+<a th:href="@{/admin}" style="padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Back to Home</a>
+</body>
+</html>
