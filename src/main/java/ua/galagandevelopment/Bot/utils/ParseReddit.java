@@ -27,29 +27,29 @@ public class ParseReddit {
         System.setProperty("webdriver.chrome.driver", "/home/ubuntu/bot/chromedriver");
         //System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
         try {
-            driver = new ChromeDriver();
+            for (Phrase phrase : allPhrase) {
+                driver = new ChromeDriver();
+                String searchUrl = "https://www.reddit.com/search/?q=" + phrase + "&sort=new";
 
-            String searchPhrase = allPhrase.get(0).getText();
-            String searchUrl = "https://www.reddit.com/search/?q=" + searchPhrase + "&sort=new";
+                driver.get(searchUrl);
+                Thread.sleep(3000);
 
-            driver.get(searchUrl);
-            Thread.sleep(3000);
+                WebElement postsBlock = driver.findElement(By.cssSelector("reddit-feed[label='search-results-page-tab-posts']"));
 
-            WebElement postsBlock = driver.findElement(By.cssSelector("reddit-feed[label='search-results-page-tab-posts']"));
+                List<WebElement> postElements = postsBlock.findElements(By.cssSelector("faceplate-tracker[data-testid='search-post']"));
+                for (WebElement postElement : postElements) {
+                    try {
+                        WebElement linkElement = postElement.findElement(By.cssSelector("a[aria-label]"));
+                        String postLink = linkElement.getAttribute("href");
+                        String postTitle = linkElement.getAttribute("aria-label");
 
-            List<WebElement> postElements = postsBlock.findElements(By.cssSelector("faceplate-tracker[data-testid='search-post']"));
-            for (WebElement postElement : postElements) {
-                try {
-                    WebElement linkElement = postElement.findElement(By.cssSelector("a[aria-label]"));
-                    String postLink = linkElement.getAttribute("href");
-                    String postTitle = linkElement.getAttribute("aria-label");
-
-                    posts.add(new Post(null, "Знайдено новий пост", postTitle, postLink, false));
-                } catch (Exception e) {
-                    System.out.println("Не вдалося знайти посилання для одного з постів");
+                        posts.add(new Post(null, "Знайдено новий пост", postTitle, postLink, false));
+                    } catch (Exception e) {
+                        System.out.println("Не вдалося знайти посилання для одного з постів");
+                    }
                 }
+                driver.quit();
             }
-            driver.quit();
         } catch (Exception e) {
             System.out.println("Something went wrong in the parsing process");
             e.printStackTrace();

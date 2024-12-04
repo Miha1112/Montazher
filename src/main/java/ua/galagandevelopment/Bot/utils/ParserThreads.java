@@ -39,8 +39,8 @@ public class ParserThreads {
             // Перехід на сторінку пошуку
             List<Phrase> allPhrase = entityManager.createQuery("SELECT x FROM Phrase x", Phrase.class)
                     .getResultList();
-            String searchPhrase = allPhrase.get(0).getText();
-            String searchUrl = "https://www.threads.net/search?q=" + searchPhrase + "&serp_type=default&filter=recent";
+            for (Phrase phrase : allPhrase) {
+            String searchUrl = "https://www.threads.net/search?q=" + phrase + "&serp_type=default&filter=recent";
             driver.get(searchUrl);
 
             // Очікування завантаження елементів
@@ -100,6 +100,7 @@ public class ParserThreads {
                     throw new RuntimeException(e);
                 }
             }
+            }
 
 
         } catch (TimeoutException e) {
@@ -110,6 +111,7 @@ public class ParserThreads {
             throw new RuntimeException(e);
         }
         driver.quit();
+
         return posts;
     }
 }
