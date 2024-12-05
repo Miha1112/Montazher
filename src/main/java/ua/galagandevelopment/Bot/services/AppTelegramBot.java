@@ -1,5 +1,6 @@
 package ua.galagandevelopment.Bot.services;
 
+import jakarta.persistence.EntityManager;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,8 @@ import ua.galagandevelopment.Bot.utils.ParserThreads;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Slf4j
 @Component
@@ -35,6 +38,7 @@ public class AppTelegramBot  extends TelegramLongPollingBot {
     private final XAccountRepository xRepository;
     private final FBRepository fbRepository;
     private final ParseX parseX;
+    EntityManager entityManager;
     private final ParserThreads parserThreads;
     private String email;
     private String password;
@@ -240,33 +244,70 @@ public class AppTelegramBot  extends TelegramLongPollingBot {
         userService.save(user);
     }
     public void startParseAll(){
+      /* List<BotSettings> settings = entityManager.createQuery("SELECT x FROM BotSettings x", BotSettings.class)
+               .getResultList();
+       BotSettings set = settings.get(0);
+       int interval = set.getIntervalMinutes() * 60 * 1000;//1000 milisec koef
+       Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                List<Post> postsX = parseX.init();
+                sender(postsX);
+                System.out.println("Send post x");
+
+                List<Post> postsReddit = parseReddit.init();
+                sender(postsReddit);
+                System.out.println("Send post reddit");
+
+                List<Post> postsFB = parseFB.init();
+                sender(postsFB);
+                System.out.println("Send post fb");
+
+                List<Post> postsThreads = parserThreads.init();
+                sender(postsThreads);
+                System.out.println("Send post threads");
+            }
+        };
+        timer.scheduleAtFixedRate(task, 0, interval);//run code with custom interval*/
         List<Post> postsX = parseX.init();
-        List<Post> postsFB = parseFB.init();
-        List<Post> postsThreads = parserThreads.init();
-        List<Post> postsReddit = parseReddit.init();
         sender(postsX);
-        sender(postsFB);
-        sender(postsThreads);
+        System.out.println("Send post x");
+
+        List<Post> postsReddit = parseReddit.init();
         sender(postsReddit);
+        System.out.println("Send post reddit");
+
+        List<Post> postsFB = parseFB.init();
+        sender(postsFB);
+        System.out.println("Send post fb");
+
+        List<Post> postsThreads = parserThreads.init();
+        sender(postsThreads);
+        System.out.println("Send post threads");
     }
     private void sender(List<Post> posts){
         if (posts != null) {
             try {
                 for (Post post : posts) {
                     if (!postRepository.findByUrl(post.getUrl()).isPresent()) {
-                        postRepository.save(post); // Збереження нового поста
+                        postRepository.save(post);
                         String text = post.getTitle() + "\n" + post.getContent() + "\n" + post.getUrl();
                         sendMessageToChat(-1002386765028L, text);
                         post.setIsParsed(true);
                         postRepository.save(post);
-                        Thread.sleep(1000);
+                        Thread.sleep(3000);
+                    }else{
+                        System.out.println("Old post detected, stariy hlam ide gulyat, to tak nada a ne parser polomavsya");
                     }
                 }
             }catch (Exception e){
                 e.printStackTrace();
                 System.out.println(e.getMessage() + "error in send");
             }
-        }
+        }else
+            System.out.println("Ya poluchil posts = null, opyat parser cherez zhopu robit");
     }
 
     private void sendMessageToChat( Long chatId,String text){

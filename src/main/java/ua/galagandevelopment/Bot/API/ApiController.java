@@ -19,7 +19,7 @@ public class ApiController {
     @PostMapping("/start")
     public ResponseEntity<String> sendMessage(){
         bot.startParseAll();
-        return ResponseEntity.ok("Bot started");
+        return ResponseEntity.ok("Bot end work");
     };
 
 }

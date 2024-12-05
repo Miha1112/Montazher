@@ -14,6 +14,7 @@
   </style>
   <script>
     function startBot() {
+      alert("Bot start work");
       fetch('/api/start', {
         method: 'POST',
         headers: {
@@ -22,7 +23,7 @@
       })
               .then(response => response.text())
               .then(data => {
-                alert(data); // Виведе "Bot started"
+                alert(data);
               })
               .catch(error => {
                 console.error('Error:', error);
@@ -42,8 +43,6 @@
 <button type="button" class="button" onclick="startBot()">
   Запустити
 </button>
-
-<br/>
-<a th:href="@{/admin}" class="button">Back to Home</a>
+<a th:href="@{/admin/main}" class="button">Back to Home</a>
 </body>
 </html>

@@ -10,10 +10,14 @@
 <ul>
     <li th:each="phrase : ${phrases}">
         <span th:text="${phrase.text}"></span>
+        <form th:action="@{/admin/phrases/{id}(id=${phrase.id})}" method="post" style="display: inline;">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit" style="background-color: red; color: white; border: none; cursor: pointer;">
+                Видалити
+            </button>
+        </form>
     </li>
 </ul>
-
-<br/>
-<a th:href="@{/admin}" style="padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Back to Home</a>
+<a th:href="@{/admin/main}" style="padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Back to Home</a>
 </body>
 </html>

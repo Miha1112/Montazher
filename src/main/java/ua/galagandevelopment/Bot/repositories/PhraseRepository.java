@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ua.galagandevelopment.Bot.models.Phrase;
 
 @Repository
-public interface PhraseRepository extends JpaRepository<Phrase, String> {
+public interface PhraseRepository extends JpaRepository<Phrase, Long> {
     Phrase findByText(String text);
+    Phrase findById(long id);
 }

@@ -31,6 +31,11 @@ public class AdminController {
         model.addAttribute("newPhrase", new Phrase());
         return "admin/phrases";
     }
+    @DeleteMapping("/phrases/{id}")
+    public String deletePhrase(@PathVariable Long id) {
+        phraseRepository.deleteById(id);
+        return "redirect:/admin/phrases";
+    }
 
     @PostMapping("/phrases")
     public String addPhrase(@ModelAttribute Phrase phrase) {

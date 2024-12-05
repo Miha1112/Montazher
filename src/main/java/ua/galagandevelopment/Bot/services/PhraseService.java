@@ -15,7 +15,7 @@ public class PhraseService {
     private final PhraseRepository phraseRepository;
 
     public Phrase save(Phrase phrase) {return phraseRepository.save(phrase);}
-    public Phrase findById(String id) {return phraseRepository.findById(id).orElse(null);}
+    public Phrase findById(Long id) {return phraseRepository.findById(id).orElse(null);}
     public List<Phrase> findAll() {return phraseRepository.findAll();}
     public Phrase findByText(String text) {return phraseRepository.findByText(text);}
 }
